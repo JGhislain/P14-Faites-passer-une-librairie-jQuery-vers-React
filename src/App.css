@@ -21,3 +21,9 @@ label {
 .address {
   margin-top: 10px;
 }
+.react-datepicker {
+  margin-left: 120px;
+}
+.save-button {
+  margin-top: 25px;
+}
