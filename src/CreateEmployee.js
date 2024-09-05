@@ -60,6 +60,7 @@ const CreateEmployee = () => {
         <img className='img-title' src='/assets/image/wealthHealth.png' alt='logo titre' />
         <h1 id="create-employee-form">Create Employee</h1>
       </div>
+      <div className='form-contain'>
       <form id="create-employee" aria-labelledby="create-employee-form">
         <label htmlFor="first-name">First Name</label>
         <input 
@@ -161,6 +162,7 @@ const CreateEmployee = () => {
       >
         Save
       </button>
+      </div>
 
       <Modal
         show={showModal}

@@ -1,29 +1,159 @@
-.title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+@keyframes gradientAnim {
+  0% {
+      background-position: 0% 50%;
+  }
+  50% {
+      background-position: 100% 50%;
+  }
+  100% {
+      background-position: 0% 50%;
+  }
 }
 
 
-.container {
+/* Style général pour la page */
+body {
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #93AD18 25%, #5A6F07 75%);
+  background-size: 200% 200%;
+  animation: gradientAnim 5s ease infinite;
+  margin: 0;
+  padding: 20px;
+}
+
+.form-contain {
+  margin: 5% 35%;
+}
+
+/* Conteneur principal de la page */
+#main-container {
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  width: 400px; /* Limite la largeur du formulaire pour le centrer */
+  text-align: center;
+}
+
+/* Style pour le titre et l'image du logo */
+.title-create {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  margin-bottom: 20px;
 }
 
+.img-title {
+  height: 100px; /* Ajusté à 100px comme demandé */
+  margin-bottom: 15px;
+}
+
+h1 {
+  font-size: 24px;
+  color: #FAFAFA; /* Vert olive foncé inspiré du logo */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* Style pour les labels */
 label {
   display: block;
-  margin-top: 1rem;
-  margin-bottom: 10px;
+  margin: 10px 0 5px;
+  font-weight: bold;
+  color: #4e5a3f; /* Couleur vert olive */
+  text-align: left; /* Les labels alignés à gauche */
 }
 
-.address {
-  margin-top: 10px;
+/* Style pour les inputs et selects */
+input, select {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 15px;
+  border: 1px solid #b1b1a3; /* Bordure douce inspirée des couleurs du logo */
+  border-radius: 4px;
+  font-size: 16px;
 }
-.react-datepicker {
-  margin-left: 120px;
+
+/* Style pour les fieldsets */
+fieldset {
+  margin-bottom: 20px;
+  border: 1px solid #b1b1a3; /* Bordure douce */
+  padding: 15px;
+  border-radius: 4px;
+  text-align: left; /* Pour aligner les labels */
 }
+
+legend {
+  font-size: 18px;
+  color: #4e5a3f;
+  font-weight: bold;
+}
+
+/* Style pour le bouton enregistrer */
 .save-button {
-  margin-top: 25px;
+  background-color: #4e5a3f; /* Vert olive foncé du logo */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  width: 100%;
+}
+
+.save-button:hover {
+  background-color: #3c4b35; /* Couleur légèrement plus foncée au survol */
+}
+
+/* Style pour la fenêtre modale */
+.modal-header {
+  background-color: #4e5a3f;
+  color: white;
+  padding: 10px;
+  text-align: center;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.cancel-button {
+  background-color: #d9534f;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.ok-button {
+  background-color: #5cb85c;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-button:hover, .ok-button:hover {
+  opacity: 0.8;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+  #main-container {
+    padding: 20px;
+    width: 90%; /* Ajuste la largeur pour les petits écrans */
+  }
+
+  h1 {
+    font-size: 20px;
+  }
+
+  .save-button {
+    width: 100%;
+  }
 }
