@@ -61,7 +61,7 @@ label {
   display: block;
   margin: 10px 0 5px;
   font-weight: bold;
-  color: #4e5a3f; /* Couleur vert olive */
+  color: #FAFAFA; /* Couleur vert olive */
   text-align: left; /* Les labels alignés à gauche */
 }
 
@@ -86,7 +86,7 @@ fieldset {
 
 legend {
   font-size: 18px;
-  color: #4e5a3f;
+  color: #FAFAFA;
   font-weight: bold;
 }
 
