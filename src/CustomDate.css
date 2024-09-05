@@ -1,46 +1,51 @@
 .custom-date-picker {
-    display: inline-block;
-    position: relative;
-  }
-  
-  .custom-date-picker input {
-    width: 150px;
-    padding: 5px;
-    margin-right: 10px;
-  }
-  
-  .custom-date-picker button {
-    padding: 5px 10px;
-  }
-  
-  .date-fields {
-    display: flex;
-    margin-top: 10px;
-  }
-  
-  .date-fields select {
-    margin-right: 5px;
-    padding: 5px;
-  }
-  
-  .calendar {
-    position: absolute;
-    top: 40px;
-    left: 0;
-    background: white;
-    border: 1px solid #ccc;
-    padding: 10px;
-    z-index: 100;
-  }
-  
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    border: 0;
-  }
-    
+  position: relative;
+  display: inline-block;
+}
+
+.calendar {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  background-color: white;
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 1000;
+}
+
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.calendar-header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: bold;
+}
+
+.calendar-body {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+}
+
+.calendar-day, .calendar-month, .calendar-year {
+  padding: 10px;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.calendar-day:hover, .calendar-month:hover, .calendar-year:hover,
+.calendar-day.selected, .calendar-month.selected, .calendar-year.selected {
+  background-color: #007bff;
+  color: white;
+}
+
+.empty {
+  visibility: hidden;
+}
