@@ -27,7 +27,10 @@ const EmployeeList = () => {
 
   return (
     <div>
-      <h1>Current Employees</h1>
+      <div className='title-create'>
+        <img className='img-title' src='/assets/image/wealthHealth.png' alt='logo titre' />
+        <h1 id="create-employee-form">Create Employee</h1>
+      </div>
       <DataTable columns={columns} data={employees} pagination />
       <a href="/create-employee" aria-label="Go to Create Employee page">Home</a>
     </div>

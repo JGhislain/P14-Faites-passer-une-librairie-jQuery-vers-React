@@ -157,3 +157,76 @@ legend {
     width: 100%;
   }
 }
+
+/* Style général pour EmployeeList */
+#employee-list-container {
+  margin: 5% auto;
+  width: 80%;
+  max-width: 1000px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  padding: 40px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Tableau des employés */
+.dataTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.dataTable th, .dataTable td {
+  padding: 12px 15px;
+  border: 1px solid #b1b1a3;
+  text-align: left;
+}
+
+/* Alternance de couleurs pour les lignes du tableau */
+.dataTable tbody tr:nth-child(even) {
+  background-color: #f1f5f0; /* Couleur plus claire */
+}
+
+.dataTable tbody tr:nth-child(odd) {
+  background-color: #e9ece5; /* Une autre nuance douce */
+}
+
+.dataTable th {
+  background-color: #4e5a3f;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.dataTable td {
+  color: #333;
+}
+
+/* Lien vers la page Home */
+a {
+  display: inline-block;
+  background-color: #4e5a3f;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 16px;
+  margin-top: 20px;
+}
+
+a:hover {
+  background-color: #3c4b35;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  #employee-list-container {
+    padding: 20px;
+    width: 95%;
+  }
+
+  .dataTable th, .dataTable td {
+    padding: 10px;
+  }
+}
