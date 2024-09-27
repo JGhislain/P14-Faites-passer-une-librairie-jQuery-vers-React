@@ -10,7 +10,6 @@ import CustomDate from './CustomDate';
 import './CustomDate.css';
 
 const CreateEmployee = () => {
-  // Initialisation à null pour ne pas pré-remplir les dates
   const [birthDate, setBirthDate] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [showModal, setShowModal] = useState(false);
@@ -40,7 +39,6 @@ const CreateEmployee = () => {
     setNewEmployee(employee);
     setShowModal(true);
   };
-  
 
   const confirmSaveEmployee = () => {
     const employees = JSON.parse(localStorage.getItem('employees')) || [];
@@ -56,112 +54,111 @@ const CreateEmployee = () => {
 
   return (
     <div>
-      <div className='title-create'>
-        <img className='img-title' src='/assets/image/wealthHealth.png' alt='logo titre' />
+      <div className="title-create">
+        <img className="img-title" src="/assets/image/wealthHealth.png" alt="logo titre" />
         <h1 id="create-employee-form">Create Employee</h1>
       </div>
-      <div className='form-contain'>
-      <form id="create-employee" aria-labelledby="create-employee-form">
-        <label htmlFor="first-name">First Name</label>
-        <input 
-          type="text" 
-          id="first-name" 
-          name="firstName" 
-          autoComplete="given-name" 
-          aria-required="true" 
-          aria-labelledby="first-name-label" 
-        />
-
-        <label htmlFor="last-name" id="last-name-label">Last Name</label>
-        <input 
-          type="text" 
-          id="last-name" 
-          name="lastName" 
-          autoComplete="family-name" 
-          aria-required="true" 
-        />
-
-        <label htmlFor="date-of-birth">Date of Birth</label>
-        <CustomDate
-          selectedDate={birthDate}
-          onDateChange={setBirthDate}
-          aria-label="Select Date of Birth"
-        />
-
-        <label htmlFor="start-date">Start Date</label>
-        <CustomDate
-          selectedDate={startDate}
-          onDateChange={setStartDate}
-          aria-label="Select Start Date"
-        />
-
-        <fieldset className="address" aria-labelledby="address">
-          <legend id="address">Address</legend>
-          <label htmlFor="street">Street</label>
+      <div className="form-contain">
+        <form id="create-employee" aria-labelledby="create-employee-form">
+          <label htmlFor="first-name">First Name</label>
           <input 
-            id="street" 
             type="text" 
-            name="street" 
-            autoComplete="street-address" 
+            id="first-name" 
+            name="firstName"  // Ajout d'un name
+            autoComplete="given-name" 
             aria-required="true" 
           />
 
-          <label htmlFor="city">City</label>
+          <label htmlFor="last-name">Last Name</label>
           <input 
-            id="city" 
             type="text" 
-            name="city" 
-            autoComplete="address-level2" 
+            id="last-name" 
+            name="lastName"  // Ajout d'un name
+            autoComplete="family-name" 
             aria-required="true" 
           />
 
-          <label htmlFor="state">State</label>
+          <label htmlFor="date-of-birth">Date of Birth</label>
+          <CustomDate
+            selectedDate={birthDate}
+            onDateChange={setBirthDate}
+            aria-label="Select Date of Birth"
+            id="date-of-birth"  // Ajout d'un id
+          />
+
+          <label htmlFor="start-date">Start Date</label>
+          <CustomDate
+            selectedDate={startDate}
+            onDateChange={setStartDate}
+            aria-label="Select Start Date"
+            id="start-date"  // Ajout d'un id
+          />
+
+          <fieldset className="address" aria-labelledby="address-legend">
+            <legend id="address-legend">Address</legend>
+            <label htmlFor="street">Street</label>
+            <input 
+              id="street" 
+              type="text" 
+              name="street"  // Ajout d'un name
+              autoComplete="street-address" 
+              aria-required="true" 
+            />
+
+            <label htmlFor="city">City</label>
+            <input 
+              id="city" 
+              type="text" 
+              name="city"  // Ajout d'un name
+              autoComplete="address-level2" 
+              aria-required="true" 
+            />
+
+            <label htmlFor="state">State</label>
+            <select 
+              id="state" 
+              name="state" 
+              aria-required="true" 
+            >
+              {states.map((state) => (
+                <option key={state.abbreviation} value={state.abbreviation}>
+                  {state.name}
+                </option>
+              ))}
+            </select>
+
+            <label htmlFor="zip-code">Zip Code</label>
+            <input 
+              id="zip-code" 
+              type="number" 
+              name="zipCode"  // Ajout d'un name
+              autoComplete="postal-code" 
+              aria-required="true" 
+            />
+          </fieldset>
+
+          <label htmlFor="department">Department</label>
           <select 
-            id="state" 
-            name="state" 
-            aria-required="true" 
-            aria-labelledby="state-label"
+            id="department" 
+            name="department"  // Ajout d'un name
+            autoComplete="organization" 
+            aria-required="true"
           >
-            {states.map((state) => (
-              <option key={state.abbreviation} value={state.abbreviation}>
-                {state.name}
-              </option>
-            ))}
+            <option>Sales</option>
+            <option>Marketing</option>
+            <option>Engineering</option>
+            <option>Human Resources</option>
+            <option>Legal</option>
           </select>
+        </form>
 
-          <label htmlFor="zip-code">Zip Code</label>
-          <input 
-            id="zip-code" 
-            type="number" 
-            name="zipCode" 
-            autoComplete="postal-code" 
-            aria-required="true" 
-          />
-        </fieldset>
-
-        <label htmlFor="department">Department</label>
-        <select 
-          id="department" 
-          name="department" 
-          autoComplete="organization" 
-          aria-required="true"
-          aria-labelledby="department-label"
+        <button 
+          className="save-button" 
+          onClick={saveEmployee} 
+          aria-label="Save Employee"
         >
-          <option>Sales</option>
-          <option>Marketing</option>
-          <option>Engineering</option>
-          <option>Human Resources</option>
-          <option>Legal</option>
-        </select>
-      </form>
-
-      <button 
-        className="save-button" 
-        onClick={saveEmployee} 
-        aria-label="Save Employee"
-      >
-        Save
-      </button>
+          Save
+        </button>
       </div>
 
       <Modal

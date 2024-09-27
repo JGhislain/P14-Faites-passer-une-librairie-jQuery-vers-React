@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './CustomDate.css';
 
-const CustomDate = ({ selectedDate, onDateChange }) => {
+const CustomDate = ({ selectedDate, onDateChange, id }) => {
   const [showCalendar, setShowCalendar] = useState(false);
   const [view, setView] = useState('date'); // 'date', 'month', 'year'
   const today = new Date(); // Date du jour
   const [date, setDate] = useState(selectedDate ? new Date(selectedDate) : null); // Date initialisée ou null
   const [inputValue, setInputValue] = useState(''); // Laisse vide par défaut avec placeholder
   const calendarRef = useRef(null); // Pour détecter les clics en dehors du calendrier
+  const inputRef = useRef(null); // Référence à l'input pour gérer le curseur
+  const selectionRef = useRef({ start: 0, end: 0 }); // Référence pour stocker la position du curseur
 
   useEffect(() => {
     // Met à jour l'input si la date change via le calendrier
@@ -37,7 +39,7 @@ const CustomDate = ({ selectedDate, onDateChange }) => {
       year: 'numeric',
       month: '2-digit',
       day: '2-digit',
-    }).format(d).replace(/-/g, '/'); // Supprimer l'anti-slash ici
+    }).format(d).replace(/-/g, '/');
   };
 
   const handleDateClick = (day) => {
@@ -69,27 +71,98 @@ const CustomDate = ({ selectedDate, onDateChange }) => {
   };
 
   const handleInputChange = (e) => {
-    let inputValue = e.target.value.replace(/[^\d/]/g, ''); // Limite les caractères non numériques et autres que '/'
-    
-    // Ajoute des '/' après l'année et le mois une fois les 4 chiffres de l'année et les 2 du mois saisis
-    if (inputValue.length === 4 && !inputValue.includes('/')) {
-      inputValue = `${inputValue}/`;
-    } else if (inputValue.length === 7 && inputValue.split('/').length < 3) {
-      inputValue = `${inputValue}/`;
+    const input = e.target;
+    let inputValue = input.value;
+    let cursorPosition = input.selectionStart;
+
+    // Stocker la position du curseur avant la mise à jour
+    selectionRef.current = { start: cursorPosition, end: input.selectionEnd };
+
+    // Supprimer tous les caractères non numériques
+    let digits = inputValue.replace(/\D/g, '');
+
+    // Formatter la valeur
+    let formattedValue = '';
+    if (digits.length >= 4) {
+      formattedValue = digits.slice(0, 4) + '/';
+      if (digits.length >= 6) {
+        formattedValue += digits.slice(4, 6) + '/';
+        formattedValue += digits.slice(6, 8);
+      } else {
+        formattedValue += digits.slice(4, 6);
+      }
+    } else {
+      formattedValue = digits;
     }
 
-    setInputValue(inputValue);
+    // Mettre à jour l'état
+    setInputValue(formattedValue);
 
-    // Vérifie si la date est complète et valide
-    if (inputValue.length === 10) {
-      const [year, month, day] = inputValue.split('/');
+    // Ajuster la position du curseur après la mise à jour
+    setTimeout(() => {
+      let newCursorPosition = selectionRef.current.start;
+
+      // Ajuster la position du curseur en fonction des slashes ajoutés ou supprimés
+      if (selectionRef.current.start > 4 && digits.length >= 4) {
+        newCursorPosition++;
+      }
+      if (selectionRef.current.start > 6 && digits.length >= 6) {
+        newCursorPosition++;
+      }
+
+      if (inputRef.current) {
+        inputRef.current.setSelectionRange(newCursorPosition, newCursorPosition);
+      }
+    }, 0);
+
+    // Vérifier si la date est complète et valide
+    if (digits.length === 8) {
+      const year = digits.slice(0, 4);
+      const month = digits.slice(4, 6);
+      const day = digits.slice(6, 8);
       const parsedDate = new Date(year, month - 1, day);
 
-      // Limite à la date d'aujourd'hui
-      if (!isNaN(parsedDate.getTime()) && parsedDate <= today) {
+      if (
+        !isNaN(parsedDate.getTime()) &&
+        parsedDate <= today &&
+        month >= 1 && month <= 12 &&
+        day >= 1 && day <= daysInMonth(parsedDate.getMonth(), parsedDate.getFullYear())
+      ) {
         setDate(parsedDate);
         onDateChange(parsedDate);
       }
+    }
+  };
+
+  const handleKeyDown = (e) => {
+    const cursorPosition = e.target.selectionStart;
+
+    if ((e.key === 'Backspace' && (cursorPosition === 5 || cursorPosition === 8)) ||
+        (e.key === 'Delete' && (cursorPosition === 4 || cursorPosition === 7))) {
+      e.preventDefault();
+
+      // Mettre à jour manuellement la valeur et la position du curseur
+      let newValue = inputValue;
+      let newCursorPosition = cursorPosition;
+
+      if (e.key === 'Backspace' && (cursorPosition === 5 || cursorPosition === 8)) {
+        newValue = inputValue.slice(0, cursorPosition - 1) + inputValue.slice(cursorPosition);
+        newCursorPosition = cursorPosition - 1;
+      }
+
+      if (e.key === 'Delete' && (cursorPosition === 4 || cursorPosition === 7)) {
+        newValue = inputValue.slice(0, cursorPosition) + inputValue.slice(cursorPosition + 1);
+        newCursorPosition = cursorPosition;
+      }
+
+      setInputValue(newValue);
+
+      // Ajuster la position du curseur après la mise à jour
+      setTimeout(() => {
+        if (inputRef.current) {
+          inputRef.current.setSelectionRange(newCursorPosition, newCursorPosition);
+        }
+      }, 0);
     }
   };
 
@@ -146,13 +219,14 @@ const CustomDate = ({ selectedDate, onDateChange }) => {
     if (!date) return null;
 
     const years = [];
-    const currentYear = date.getFullYear();
+    const startYear = 1900;
+    const currentYear = today.getFullYear();
 
-    for (let i = currentYear - 80; i <= today.getFullYear(); i++) { // Limite à l'année actuelle
+    for (let i = startYear; i <= currentYear; i++) { // Commence à 1900 jusqu'à l'année actuelle
       years.push(
         <div
           key={i}
-          className={`calendar-year${i === currentYear ? ' selected' : ''}`}
+          className={`calendar-year${i === date.getFullYear() ? ' selected' : ''}`}
           onClick={() => handleYearClick(i)}
         >
           {i}
@@ -174,13 +248,16 @@ const CustomDate = ({ selectedDate, onDateChange }) => {
   return (
     <div className="custom-date-picker">
       <input
+        id={id}
+        ref={inputRef}
         type="text"
         value={inputValue}
         onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
         placeholder="YYYY/MM/DD"
         aria-label="Date input"
         onClick={toggleCalendar}
-        maxLength="10" // Limite l'entrée à 10 caractères
+        maxLength="10"
       />
 
       {showCalendar && date && (
