@@ -6,8 +6,10 @@ import states from './states';
 //import Modal from './Modal';
 import Modal from 'modal-component-ghislain-jambert/dist/Modal';
 import 'modal-component-ghislain-jambert/dist/Modal.css';
-import CustomDate from './CustomDate';
-import './CustomDate.css';
+//import CustomDate from './CustomDate';
+//import './CustomDate.css';
+import CustomDate from 'custom-date-ghislain-jambert-p14';
+import 'custom-date-ghislain-jambert-p14/dist/CustomDate.css'
 
 const CreateEmployee = () => {
   const [birthDate, setBirthDate] = useState(null);
